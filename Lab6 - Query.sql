@@ -158,5 +158,6 @@ update product set product.Sell_Price = 120 where product.Product_Name = 'Mouse'
 update clients set City = 'Ben Cat' where Client_Number='C104';
 -- 35. If On_Hand_Quantity greater than 5, then 10% discount. 
 -- If On_Hand_Quantity greater than 10, then 15% discount. Othrwise, no discount.
+select * from product;
 update product set discount = case when Quantity_On_Hand > 10 then 0.15 else case when Quantity_On_Hand > 5 then 0.1 else 0 end end;
 select *,case when Quantity_On_Hand > 10 then 0.15 else case when Quantity_On_Hand > 5 then 0.1 else 0 end end 'status' from product;
