@@ -1,4 +1,9 @@
-
+delimiter //
+create procedure name_customer(in in_name varchar(30))
+begin
+end
+//
+delimiter ;
 -- 1. SQL statement returns the cities (only distinct values) from both the "Clients" and the "salesman" table.
 select city from clients 
 union 
@@ -172,17 +177,18 @@ Delimiter ;
 call amount_of_salary_with_condition_20000;
 -- 22. Create a stored procedure to retrieve the total sales for a specific salesman.
 Delimiter $$
-CREATE PROCEDURE total_sale_for_a_specific_salesman (IN id varchar(15) )-- ,  out totalsales int)
+CREATE PROCEDURE total_sale_for_a_specific_salesman (IN id varchar(15) ,  out totalsales int)
 Begin
-select sum(Order_Quantity) -- into totalsales 
+select sum(Order_Quantity) into totalsales 
 from  salesorder as t1,salesorderdetails t2
 where t1.Order_Number= t2.Order_Number and t1.Salesman_Number = id;
 End$$
 Delimiter ;
--- set @totalsales = 0;
-call total_sale_for_a_specific_salesman('S003');-- ,@totalsales);
+set @totalsales = 0;
+call total_sale_for_a_specific_salesman('S003' ,@totalsales);
 drop PROCEDURE total_sale_for_a_specific_salesman;
--- select @totalsales;
+select @totalsales;
+
 select * from salesorder s
 inner join salesorderdetails sod on s.Order_Number = sod.Order_Number
 order by Salesman_Number;
@@ -217,7 +223,7 @@ DELETE FROM product WHERE Product_Number = 'P1009';
 -- Greater than or equal to 5000: "Midium"
 -- Less than 5000: "Small"
 Delimiter $$
-CREATE PROCEDURE amount_of_salary_with_condition_20000 ()
+CREATE PROCEDURE total_order_value ()
 Begin
 select 'salary > 20000' as type, sum(case when salary > 20000 then 1 else 0 end) amount_of_salesman from salesman
 union
